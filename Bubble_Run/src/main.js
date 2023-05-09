@@ -1,7 +1,16 @@
-// Nathan Altice
-// Paddle Parkour P3
-// An endless dodging game
-// Barrier prefab adapted from Travis Faas, An Introduction to HTML5 Game Development with Phaser.js (2017)
+// Oscar Tiong
+// Bubble Run
+// Hours spent : 
+
+/* Creative tilt (Aethestics):
+- This is an endless runner set in a world that is powered by classical music. 
+- The game takes place in the romantic caves, one of the many areas of this world.
+- Run across this dreamy cave, which formed by the romantic motives seen in the music of multiple composers.
+*/
+
+/* Creative tilt (Technicalities)
+- There are bounce pads in the game that make you jump automatically
+*/
 // Original: 4/20/17 (Phaser CE version)
 // Updated: 5/1/23 (Phaser 3.55)
 
