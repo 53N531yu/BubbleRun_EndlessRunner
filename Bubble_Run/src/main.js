@@ -21,8 +21,8 @@
 let config = {
     parent: 'myGame',
     type: Phaser.AUTO,
-    height: 1024,
-    width: 768,
+    height: 768,
+    width: 1024,
     scale: {
         autoCenter: Phaser.Scale.CENTER_BOTH
     },

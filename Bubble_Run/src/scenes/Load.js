@@ -19,6 +19,7 @@ class Load extends Phaser.Scene {
         this.load.path = './assets/';
         // load graphics assets
         this.load.image('Player', 'img/MainCharacter.png');
+        this.load.image('Platform', 'img/Platform.png');
         this.load.image('paddle', 'img/paddle.png');
         this.load.image('fragment', 'img/fragment.png');
         this.load.image('cross', 'img/white_cross.png');
