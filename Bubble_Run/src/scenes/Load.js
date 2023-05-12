@@ -20,7 +20,9 @@ class Load extends Phaser.Scene {
         // load graphics assets
         this.load.image('Player', 'img/MainCharacter.png');
         this.load.image('Platform', 'img/Platform.png');
-        this.load.image('Platform', 'img/BouncePad.png');
+        this.load.image('Bounce', 'img/BouncePad.png');
+        this.load.image('Spike', 'img/Spike.png');
+        this.load.image('JumpPiece', 'img/JumpPiece.png');
         this.load.image('paddle', 'img/paddle.png');
         this.load.image('fragment', 'img/fragment.png');
         this.load.image('cross', 'img/white_cross.png');
