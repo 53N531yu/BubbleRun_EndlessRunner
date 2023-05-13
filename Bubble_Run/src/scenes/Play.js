@@ -105,6 +105,26 @@ class Play extends Phaser.Scene {
         this.plat1.body.immovable = true;
         this.plat1.body.setAllowGravity(false).setVelocityX(this.difficulty);
 
+        this.moveTut = this.physics.add.sprite(448, 320, 'MoveTutorial');
+        this.moveTut.body.immovable = true;
+        this.moveTut.body.setAllowGravity(false).setVelocityX(-70);
+
+        this.bounceTut = this.physics.add.sprite(1344, 320, 'BounceTutorial');
+        this.bounceTut.body.immovable = true;
+        this.bounceTut.body.setAllowGravity(false).setVelocityX(-100);
+
+        this.spikeTut = this.physics.add.sprite(1792, 362, 'SpikesTutorial');
+        this.spikeTut.body.immovable = true;
+        this.spikeTut.body.setAllowGravity(false).setVelocityX(-100);
+
+        this.jumpTut = this.physics.add.sprite(768, 192, 'JumpTutorial');
+        this.jumpTut.body.immovable = true;
+        this.jumpTut.body.setAllowGravity(false);
+
+        this.pointsTut = this.physics.add.sprite(2816, 192, 'PointsTutorial');
+        this.pointsTut.body.immovable = true;
+        this.pointsTut.body.setAllowGravity(false).setVelocityX(-70);
+
         this.plat2 = this.physics.add.sprite(768, 256, 'Platform');
         this.plat2.body.immovable = true;
         this.plat2.body.setAllowGravity(false).setVelocityX(this.difficulty);
@@ -251,6 +271,7 @@ class Play extends Phaser.Scene {
                 this.scoreRight.text = "Jump Pieces : " + this.jump + " / 3";
                 this.jumpbool = false;
                 this.jumpPiece.destroy();
+                this.jumpTut.destroy();
                 this.AddJumpPiece(this.spike.x + 1152);
                 this.jumppieceSFX.play()
                 console.log(this.jump);
@@ -331,6 +352,18 @@ class Play extends Phaser.Scene {
             this.AddJumpPiece(1280);
         }
 
+        if (this.moveTut.x <= -256) {
+            this.moveTut.destroy();
+        }
+
+        if (this.spikeTut.x <= -256) {
+            this.spikeTut.destroy();
+        }
+
+        if (this.spikeTut.x <= -256) {
+            this.spikeTut.destroy();
+        }
+
         if (this.player.y >= 1088 || this.player.x <= -64 || this.bounceCollision(this.player, this.spike)) {
             this.playerDeath();
         }
@@ -363,7 +396,7 @@ class Play extends Phaser.Scene {
             player.body.setVelocityY(-1000);
             this.sound.play('JumpSFX');
         }
-        this.time.delayedCall(15000, () => { 
+        this.time.delayedCall(20000, () => { 
             this.jump = 0;
             this.scoreRight.text = "Jump Pieces : " + this.jump + " / 3";
          });
