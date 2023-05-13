@@ -6,36 +6,34 @@ class Play extends Phaser.Scene {
     AddPlat1() {
         this.plat1 = this.physics.add.sprite(1280, 448, 'Platform');
         this.plat1.body.immovable = true;
-        this.plat1.body.setAllowGravity(false).setVelocityX(-100);
+        this.plat1.body.setAllowGravity(false).setVelocityX(this.difficulty);
         this.physics.add.collider(this.player, this.plat1);
     }
 
     AddPlat2() {
         this.plat2 = this.physics.add.sprite(1280, 256, 'Platform');
         this.plat2.body.immovable = true;
-        this.plat2.body.setAllowGravity(false).setVelocityX(-100);
+        this.plat2.body.setAllowGravity(false).setVelocityX(this.difficulty);
         this.physics.add.collider(this.player, this.plat2);
     }
 
     AddPlat3() {
         this.plat3 = this.physics.add.sprite(1280, 576, 'Platform');
         this.plat3.body.immovable = true;
-        this.plat3.body.setAllowGravity(false).setVelocityX(-100);
+        this.plat3.body.setAllowGravity(false).setVelocityX(this.difficulty);
         this.physics.add.collider(this.player, this.plat3);
     }
 
     AddBounce1() {
         this.bounce1 = this.physics.add.sprite(1280, 400, 'Bounce');
         this.bounce1.body.immovable = true;
-        this.bounce1.body.setAllowGravity(false).setVelocityX(-100);
-        //this.physics.add.collider(this.player, this.plat1);
+        this.bounce1.body.setAllowGravity(false).setVelocityX(this.difficulty);
     }
 
     AddBounce2() {
         this.bounce2 = this.physics.add.sprite(1280, 528, 'Bounce');
         this.bounce2.body.immovable = true;
-        this.bounce2.body.setAllowGravity(false).setVelocityX(-100);
-        //this.physics.add.collider(this.player, this.plat3);
+        this.bounce2.body.setAllowGravity(false).setVelocityX(this.difficulty);
     }
 
     AddSpike() {
@@ -43,12 +41,17 @@ class Play extends Phaser.Scene {
 
         if (this.spikeSpawn === 0) {
             this.spike = this.physics.add.sprite(1280, 192, 'Spike');
+            this.coin = this.physics.add.sprite(1280, 64, 'Coin');
         }
         else if (this.spikeSpawn === 1) {
             this.spike = this.physics.add.sprite(1280, 528, 'Spike');
+            this.coin = this.physics.add.sprite(1280, 368, 'Coin');
         }
         this.spike.body.immovable = true;
-        this.spike.body.setAllowGravity(false).setVelocityX(-100);
+        this.spike.body.setAllowGravity(false).setVelocityX(this.difficulty);
+        this.coin.body.immovable = true;
+        this.coin.body.setAllowGravity(false).setVelocityX(this.difficulty);
+        
     }
 
     AddJumpPiece() {
@@ -63,12 +66,13 @@ class Play extends Phaser.Scene {
             this.jumpPiece = this.physics.add.sprite(1280, 1100, 'JumpPiece');
         }
         this.jumpPiece.body.immovable = true;
-        this.jumpPiece.body.setAllowGravity(false).setVelocityX(-100);
+        this.jumpPiece.body.setAllowGravity(false).setVelocityX(this.difficulty);
     }
 
     create() {
         this.JUMP_VELOCITY = -1300;
         this.velocity = 250;
+        this.difficulty = -100;
         this.SCROLL_SPEED = 4;
         this.physics.world.gravity.y = 2600;
 
@@ -85,28 +89,32 @@ class Play extends Phaser.Scene {
         this.jump = 0;
         this.jumpbool = true;
 
+        this.points = 0;
+        this.coinbool = true;
+
         // add tile sprite
         // this.talltrees = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'talltrees').setOrigin(0);
         this.plat1 = this.physics.add.sprite(256, 448, 'Platform');
         this.plat1.body.immovable = true;
-        this.plat1.body.setAllowGravity(false).setVelocityX(-100);
+        this.plat1.body.setAllowGravity(false).setVelocityX(this.difficulty);
 
         this.plat2 = this.physics.add.sprite(768, 256, 'Platform');
         this.plat2.body.immovable = true;
-        this.plat2.body.setAllowGravity(false).setVelocityX(-100);
+        this.plat2.body.setAllowGravity(false).setVelocityX(this.difficulty);
         
         this.plat3 = this.physics.add.sprite(768, 576, 'Platform');
         this.plat3.body.immovable = true;
-        this.plat3.body.setAllowGravity(false).setVelocityX(-100);
+        this.plat3.body.setAllowGravity(false).setVelocityX(this.difficulty);
 
         this.bounce1 = this.physics.add.sprite(416, 400, 'Bounce');
         this.bounce1.body.immovable = true;
-        this.bounce1.body.setAllowGravity(false).setVelocityX(-100);
+        this.bounce1.body.setAllowGravity(false).setVelocityX(this.difficulty);
 
         this.bounce2 = this.physics.add.sprite(928, 528, 'Bounce');
         this.bounce2.body.immovable = true;
-        this.bounce2.body.setAllowGravity(false).setVelocityX(-100);
+        this.bounce2.body.setAllowGravity(false).setVelocityX(this.difficulty);
 
+        // Spike Spawn
         this.spikeSpawn = Math.floor(Math.random() * 2);
 
         if (this.spikeSpawn === 0) {
@@ -116,8 +124,19 @@ class Play extends Phaser.Scene {
             this.spike = this.physics.add.sprite(768, 528, 'Spike');
         }
         this.spike.body.immovable = true;
-        this.spike.body.setAllowGravity(false).setVelocityX(-100);
+        this.spike.body.setAllowGravity(false).setVelocityX(this.difficulty);
 
+        // Coin Spawn
+        if (this.spikeSpawn === 0) {
+            this.coin = this.physics.add.sprite(768, 64, 'Coin');
+        }
+        else if (this.spikeSpawn === 1) {
+            this.coin = this.physics.add.sprite(768, 368, 'Coin');
+        }
+        this.coin.body.immovable = true;
+        this.coin.body.setAllowGravity(false).setVelocityX(this.difficulty);
+
+        // Jump Piece Spawn
         this.jumpPieceSpawn = Math.floor(Math.random() * 3);
         if (this.jumpPieceSpawn === 0) {
             this.jumpPiece = this.physics.add.sprite(896, 192, 'JumpPiece');
@@ -129,7 +148,7 @@ class Play extends Phaser.Scene {
             this.jumpPiece = this.physics.add.sprite(896, 1100, 'JumpPiece');
         }
         this.jumpPiece.body.immovable = true;
-        this.jumpPiece.body.setAllowGravity(false).setVelocityX(-100);
+        this.jumpPiece.body.setAllowGravity(false).setVelocityX(this.difficulty);
 
         // set up my alien son 👽
         this.player = this.physics.add.sprite(256, 300, 'Player').setScale(1);
@@ -174,7 +193,15 @@ class Play extends Phaser.Scene {
                 this.jumpPiece.destroy();
                 console.log(this.jump);
             }
-            if (this.jump === 4) {
+            if (this.coinbool && this.bounceCollision(this.player, this.coin)) {
+                this.points ++;
+                this.coinbool = false;
+                this.coin.destroy();
+                this.difficulty -= 10;
+                this.changeDifficulty();
+                console.log(this.points);
+            }
+            if (this.jump >= 0) {
                 this.tempJump(this.player);
             }
         }
@@ -209,6 +236,7 @@ class Play extends Phaser.Scene {
 
         if (this.spike.x <= 256) {
             this.AddSpike();
+            this.coinbool = true;
         }
 
         if (this.jumpPiece.x <= 256) {
@@ -221,7 +249,7 @@ class Play extends Phaser.Scene {
     }
 
     bounceCollision(player, bounce) {
-        if (player.x < bounce.x + bounce.width && 
+        if (player.x < bounce.x + bounce.width / 16 && 
             player.x + player.width / 16 > bounce.x && 
             player.y < bounce.y + bounce.height &&
             player.height + player.y > bounce.y) {
@@ -231,11 +259,21 @@ class Play extends Phaser.Scene {
           }
     }
 
+    changeDifficulty() {
+        this.plat2.body.setVelocityX(this.difficulty);
+        this.plat3.body.setVelocityX(this.difficulty);
+        this.plat1.body.setVelocityX(this.difficulty);
+        this.bounce1.body.setVelocityX(this.difficulty);
+        this.bounce2.body.setVelocityX(this.difficulty);
+        this.spike.body.setVelocityX(this.difficulty);
+        this.jumpPiece.body.setVelocityX(this.difficulty);        
+    }
+
     tempJump(player) {
         if (player.body.touching.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
-            player.body.setVelocityY(this.JUMP_VELOCITY);
+            player.body.setVelocityY(-1000);
         }
-        this.time.delayedCall(5000, () => { this.jump = 0; });
+        //this.time.delayedCall(5000, () => { this.jump = 0; });
 
     }
 

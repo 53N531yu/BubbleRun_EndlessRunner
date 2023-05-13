@@ -36,11 +36,12 @@ let config = {
             }
         }
     },
-    scene: [ Load, Title, Play, GameOver ]
+    scene: [ Load, Play, GameOver, Credits, Title ]
 }
 
 // uncomment the following line if you need to purge local storage data
 //localStorage.clear();
+
 
 // define game
 let game = new Phaser.Game(config);
