@@ -44,7 +44,7 @@ class Play extends Phaser.Scene {
             this.coin = this.physics.add.sprite(1280, 64, 'Coin');
         }
         else if (this.spikeSpawn === 1) {
-            this.spike = this.physics.add.sprite(1280, 528, 'Spike');
+            this.spike = this.physics.add.sprite(1280, 512, 'Spike');
             this.coin = this.physics.add.sprite(1280, 368, 'Coin');
         }
         this.spike.body.immovable = true;
@@ -60,7 +60,7 @@ class Play extends Phaser.Scene {
             this.jumpPiece = this.physics.add.sprite(x, 192, 'JumpPiece');
         }
         else if (this.jumpPieceSpawn === 1) {
-            this.jumpPiece = this.physics.add.sprite(x, 528, 'JumpPiece');
+            this.jumpPiece = this.physics.add.sprite(x, 496, 'JumpPiece');
         }
         else {
             this.jumpPiece = this.physics.add.sprite(x, 1100, 'JumpPiece');
@@ -68,6 +68,10 @@ class Play extends Phaser.Scene {
         this.jumpbool = true;
         this.jumpPiece.body.immovable = true;
         this.jumpPiece.body.setAllowGravity(false).setVelocityX(this.difficulty);
+    }
+
+    AddGlow(player) {
+        this.jumpGlow = this.physics.add.sprite(player.x, player.y, 'JumpGlow');
     }
 
     create() {
@@ -89,7 +93,7 @@ class Play extends Phaser.Scene {
 
         this.ignore = false;
         
-        this.jump = 0;
+        this.jump = 3;
         this.jumpbool = true;
 
         this.points = 0;
@@ -124,7 +128,7 @@ class Play extends Phaser.Scene {
             this.spike = this.physics.add.sprite(768, 192, 'Spike');
         }
         else if (this.spikeSpawn === 1) {
-            this.spike = this.physics.add.sprite(768, 528, 'Spike');
+            this.spike = this.physics.add.sprite(768, 512, 'Spike');
         }
         this.spike.body.immovable = true;
         this.spike.body.setAllowGravity(false).setVelocityX(this.difficulty);
@@ -145,7 +149,7 @@ class Play extends Phaser.Scene {
             this.jumpPiece = this.physics.add.sprite(896, 192, 'JumpPiece');
         }
         else if (this.jumpPieceSpawn === 1) {
-            this.jumpPiece = this.physics.add.sprite(896, 528, 'JumpPiece');
+            this.jumpPiece = this.physics.add.sprite(896, 496, 'JumpPiece');
         }
         else {
             this.jumpPiece = this.physics.add.sprite(896, 1100, 'JumpPiece');
@@ -160,6 +164,8 @@ class Play extends Phaser.Scene {
         this.playerX = this.player.body.x;
         this.playerY = this.player.body.y;
 
+        // this.AddGlow(this.player);
+
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
 
@@ -167,6 +173,9 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.plat1);
         this.physics.add.collider(this.player, this.plat2);
         this.physics.add.collider(this.player, this.plat3);
+        // this.physics.add.collider(this.jumpGlow, this.plat1);
+        // this.physics.add.collider(this.jumpGlow, this.plat2);
+        // this.physics.add.collider(this.jumpGlow, this.plat3);
 
         this.anims.create({
             key: 'walk',
@@ -185,11 +194,13 @@ class Play extends Phaser.Scene {
         if (!this.player.destroyed) {
             if (cursors.left.isDown) {
                 this.player.body.setVelocityX(this.velocity * -1);
-                this.walkAnim(this.player, false);
+                // this.jumpGlow.body.setVelocityX(this.velocity * -1);
+                this.player.anims.play('walk', true);
                 this.player.resetFlip();
             } else if (cursors.right.isDown) {
                 this.player.body.setVelocityX(this.velocity);
-                this.walkAnim(this.player, true);
+                // this.jumpGlow.body.setVelocityX(this.velocity);
+                this.player.anims.play('walk', true);
                 this.player.setFlip(true, false);
             } else {
                 this.player.body.setVelocityX(0);
@@ -222,6 +233,10 @@ class Play extends Phaser.Scene {
             }
             if (this.jump >= 3) {
                 this.tempJump(this.player);
+                //this.jumpGlow.alpha = 1;
+            }
+            else if (this.jump < 3) {
+                //this.jumpGlow.alpha = 0;
             }
         }
         
@@ -293,21 +308,6 @@ class Play extends Phaser.Scene {
           } else {
             return false;
           }
-    }
-
-    walkAnim(player, flip) {
-        let walk = this.add.sprite(player.x - 32, player.y - 32, 'walk').setOrigin(0, 0);
-        walk.anims.play('walk');
-        if (flip) {
-            walk.setFlip(true, false);
-        }
-        else if (!flip) {
-            walk.resetFlip();
-        }
-        walk.on('animationcomplete', () => {
-            player.alpha = 1;
-            walk.destroy(); 
-        });
     }
 
     changeDifficulty() {
