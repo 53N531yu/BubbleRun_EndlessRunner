@@ -4,6 +4,7 @@ class GameOver extends Phaser.Scene {
     }
 
     create() {
+        this.gameOver = this.add.tileSprite(0, 0, 0, 0, 'GameOver').setOrigin(0, 0);
         // check for high score in local storage
         // uncomment console.log statements if you need to debug local storage
         // if(localStorage.getItem('hiscore') != null) {
@@ -31,10 +32,10 @@ class GameOver extends Phaser.Scene {
         // if(newHighScore) {
         //     this.add.bitmapText(centerX, centerY - textSpacer, 'gem', 'New Hi-Score!', 32).setOrigin(0.5);
         // }
-        this.add.bitmapText(centerX, centerY - textSpacer, 'gem', 'New Hi-Score!', 32).setOrigin(0.5);
-        this.add.bitmapText(centerX, centerY, 'gem', `Disintegration averted for ${level}s`, 48).setOrigin(0.5);
-        this.add.bitmapText(centerX, centerY + textSpacer, 'gem', `This browser's best: ${highScore}s`, 24).setOrigin(0.5);
-        this.add.bitmapText(centerX, centerY + textSpacer*2, 'gem', `Press UP ARROW to Restart`, 36).setOrigin(0.5); 
+        // this.add.bitmapText(centerX, centerY - textSpacer, 'gem', 'New Hi-Score!', 32).setOrigin(0.5);
+        // this.add.bitmapText(centerX, centerY, 'gem', `Disintegration averted for ${level}s`, 48).setOrigin(0.5);
+        // this.add.bitmapText(centerX, centerY + textSpacer, 'gem', `This browser's best: ${highScore}s`, 24).setOrigin(0.5);
+        // this.add.bitmapText(centerX, centerY + textSpacer*2, 'gem', `Press UP ARROW to Restart`, 36).setOrigin(0.5); 
 
         // set up cursor keys
         cursors = this.input.keyboard.createCursorKeys();
@@ -43,16 +44,16 @@ class GameOver extends Phaser.Scene {
     update() {
         // wait for UP input to restart game
         if (Phaser.Input.Keyboard.JustDown(cursors.up)) {
-            let textureManager = this.textures;
-            console.log(textureManager)
-            // take snapshot of the entire game viewport (same as title screen)
-            this.game.renderer.snapshot((snapshotImage) => {
-                console.log('took snapshot in GameOver')
-                if(textureManager.exists('titlesnapshot')) {
-                    textureManager.remove('titlesnapshot');
-                }
-                textureManager.addImage('titlesnapshot', snapshotImage);
-            });
+            // let textureManager = this.textures;
+            // console.log(textureManager)
+            // // take snapshot of the entire game viewport (same as title screen)
+            // this.game.renderer.snapshot((snapshotImage) => {
+            //     console.log('took snapshot in GameOver')
+            //     if(textureManager.exists('titlesnapshot')) {
+            //         textureManager.remove('titlesnapshot');
+            //     }
+            //     textureManager.addImage('titlesnapshot', snapshotImage);
+            // });
 
             // start next scene
             this.sound.play('StartGameSFX');

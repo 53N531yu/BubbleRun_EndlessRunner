@@ -9,7 +9,9 @@
 */
 
 /* Creative tilt (Technicalities)
-- There are bounce pads in the game that make you jump automatically
+- At first, you are not able to jump manually, so you must rely on bounce pads jump on platforms.
+- You can collect jump pieces in this game. When you collect 3, you'll temporarily be able to jump manually and collect coins.
+- Collecting coins will make the platforms and obstacles scroll by faster and faster. 
 */
 // Original: 4/20/17 (Phaser CE version)
 // Updated: 5/1/23 (Phaser 3.55)

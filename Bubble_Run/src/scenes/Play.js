@@ -226,10 +226,13 @@ class Play extends Phaser.Scene {
                 this.points ++;
                 this.coinbool = false;
                 this.coin.destroy();
-                this.difficulty -= 10;
-                this.changeDifficulty();
                 this.sound.play('CoinSFX');
                 console.log(this.points);
+                if (this.difficulty < (this.velocity * -1))
+                {
+                    this.difficulty -= 10;
+                    this.changeDifficulty();
+                }
             }
             if (this.jump >= 3) {
                 this.tempJump(this.player);
