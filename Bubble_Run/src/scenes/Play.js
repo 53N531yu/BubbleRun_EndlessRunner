@@ -93,7 +93,7 @@ class Play extends Phaser.Scene {
 
         this.ignore = false;
         
-        this.jump = 3;
+        this.jump = 0;
         this.jumpbool = true;
 
         this.points = 0;
@@ -186,6 +186,38 @@ class Play extends Phaser.Scene {
             }),
             frameRate: 13
         });
+
+        let scoreConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#292929',
+            color: '#ffffff',
+            align: 'left',
+            padding: {
+                top: 5,
+                bottom: 5,
+                left: 20,
+                right: 20,
+            },
+            fixedWidth: 200
+        }
+        this.scoreLeft = this.add.text(128, 64, "points : " + this.points, scoreConfig);
+
+        let jumpConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#292929',
+            color: '#ffffff',
+            align: 'left',
+            padding: {
+                top: 5,
+                bottom: 5,
+                left: 20,
+                right: 30,
+            },
+            fixedWidth: 350
+        }
+        this.scoreRight = this.add.text(576, 64, "Jump Pieces : " + this.jump + " / 3", jumpConfig);
     }
 
     update() {
@@ -216,6 +248,7 @@ class Play extends Phaser.Scene {
             }
             if (this.jumpbool && this.bounceCollision(this.player, this.jumpPiece)) {
                 this.jump ++;
+                this.scoreRight.text = "Jump Pieces : " + this.jump + " / 3";
                 this.jumpbool = false;
                 this.jumpPiece.destroy();
                 this.AddJumpPiece(this.spike.x + 1152);
@@ -224,6 +257,7 @@ class Play extends Phaser.Scene {
             }
             if (this.coinbool && this.bounceCollision(this.player, this.coin)) {
                 this.points ++;
+                this.scoreLeft.text = "points : " + this.points;
                 this.coinbool = false;
                 this.coin.destroy();
                 this.sound.play('CoinSFX');
@@ -329,7 +363,10 @@ class Play extends Phaser.Scene {
             player.body.setVelocityY(-1000);
             this.sound.play('JumpSFX');
         }
-        this.time.delayedCall(15000, () => { this.jump = 0; });
+        this.time.delayedCall(15000, () => { 
+            this.jump = 0;
+            this.scoreRight.text = "Jump Pieces : " + this.jump + " / 3";
+         });
     }
 
     playerDeath() {

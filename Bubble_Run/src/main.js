@@ -1,6 +1,6 @@
-// Oscar Tiong
-// Bubble Run
-// Hours spent : 
+// Name : Oscar Tiong
+// Game Title : Bubble Run
+// Hours spent : 25 Hours
 
 /* Creative tilt (Aethestics):
 - This is an endless runner set in a world that is powered by classical music. 
