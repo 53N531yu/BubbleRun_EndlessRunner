@@ -54,17 +54,18 @@ class Play extends Phaser.Scene {
         
     }
 
-    AddJumpPiece() {
+    AddJumpPiece(x) {
         this.jumpPieceSpawn = Math.floor(Math.random() * 3);
         if (this.jumpPieceSpawn === 0) {
-            this.jumpPiece = this.physics.add.sprite(1280, 192, 'JumpPiece');
+            this.jumpPiece = this.physics.add.sprite(x, 192, 'JumpPiece');
         }
         else if (this.jumpPieceSpawn === 1) {
-            this.jumpPiece = this.physics.add.sprite(1280, 528, 'JumpPiece');
+            this.jumpPiece = this.physics.add.sprite(x, 528, 'JumpPiece');
         }
         else {
-            this.jumpPiece = this.physics.add.sprite(1280, 1100, 'JumpPiece');
+            this.jumpPiece = this.physics.add.sprite(x, 1100, 'JumpPiece');
         }
+        this.jumpbool = true;
         this.jumpPiece.body.immovable = true;
         this.jumpPiece.body.setAllowGravity(false).setVelocityX(this.difficulty);
     }
@@ -73,16 +74,18 @@ class Play extends Phaser.Scene {
         this.JUMP_VELOCITY = -1300;
         this.velocity = 250;
         this.difficulty = -100;
-        this.SCROLL_SPEED = 4;
+        this.SCROLL_SPEED = 0;
         this.physics.world.gravity.y = 2600;
 
         this.bgm = this.sound.add('BackMusic', { 
             mute: false,
-            volume: 1,
+            volume: 0.5,
             rate: 1,
             loop: true 
         });
         this.bgm.play();
+
+        this.jumppieceSFX = this.sound.add('JumpPieceSFX', {volume: 2, loop : false});
 
         this.ignore = false;
         
@@ -164,6 +167,16 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.plat1);
         this.physics.add.collider(this.player, this.plat2);
         this.physics.add.collider(this.player, this.plat3);
+
+        this.anims.create({
+            key: 'walk',
+            frames: this.anims.generateFrameNumbers('walk', { 
+                start: 0, 
+                end: 6, 
+                first: 0
+            }),
+            frameRate: 13
+        });
     }
 
     update() {
@@ -172,9 +185,11 @@ class Play extends Phaser.Scene {
         if (!this.player.destroyed) {
             if (cursors.left.isDown) {
                 this.player.body.setVelocityX(this.velocity * -1);
+                this.walkAnim(this.player, false);
                 this.player.resetFlip();
             } else if (cursors.right.isDown) {
                 this.player.body.setVelocityX(this.velocity);
+                this.walkAnim(this.player, true);
                 this.player.setFlip(true, false);
             } else {
                 this.player.body.setVelocityX(0);
@@ -185,12 +200,15 @@ class Play extends Phaser.Scene {
                 this.ignore = false;
             }
             if (!this.ignore && this.player.body.touching.down && (this.bounceCollision(this.player, this.bounce1) || this.bounceCollision(this.player, this.bounce2))) {
+                this.sound.play("BounceSFX");
                 this.player.body.setVelocityY(this.JUMP_VELOCITY);
             }
             if (this.jumpbool && this.bounceCollision(this.player, this.jumpPiece)) {
                 this.jump ++;
                 this.jumpbool = false;
                 this.jumpPiece.destroy();
+                this.AddJumpPiece(this.spike.x + 1152);
+                this.jumppieceSFX.play()
                 console.log(this.jump);
             }
             if (this.coinbool && this.bounceCollision(this.player, this.coin)) {
@@ -199,9 +217,10 @@ class Play extends Phaser.Scene {
                 this.coin.destroy();
                 this.difficulty -= 10;
                 this.changeDifficulty();
+                this.sound.play('CoinSFX');
                 console.log(this.points);
             }
-            if (this.jump >= 0) {
+            if (this.jump >= 3) {
                 this.tempJump(this.player);
             }
         }
@@ -218,29 +237,46 @@ class Play extends Phaser.Scene {
 
         if (this.plat1.x <= 256) {
             this.AddPlat1();
+            if (this.plat1.x <= -256) {
+                this.plat1.destroy();
+            }
         }
 
         if (this.plat2.x <= 256) {
             this.AddPlat2();
             this.AddPlat3();
-            this.jumpbool = true;
+            if (this.plat2.x <= -256) {
+                this.plat2.destroy();
+            }
+            if (this.plat3.x <= -256) {
+                this.plat3.destroy();
+            }
         }
         
         if (this.bounce1.x <= 256) {
             this.AddBounce1();
+            if (this.bounce1.x <= -256) {
+                this.bounce1.destroy();
+            }
         }
 
         if (this.bounce2.x <= 256) {
             this.AddBounce2();
+            if (this.bounce2.x <= -256) {
+                this.bounce2.destroy();
+            }
         }
 
         if (this.spike.x <= 256) {
             this.AddSpike();
             this.coinbool = true;
+            if (this.spike.x <= -256) {
+                this.spike.destroy();
+            }
         }
 
         if (this.jumpPiece.x <= 256) {
-            this.AddJumpPiece();
+            this.AddJumpPiece(1280);
         }
 
         if (this.player.y >= 1088 || this.player.x <= -64 || this.bounceCollision(this.player, this.spike)) {
@@ -259,6 +295,21 @@ class Play extends Phaser.Scene {
           }
     }
 
+    walkAnim(player, flip) {
+        let walk = this.add.sprite(player.x - 32, player.y - 32, 'walk').setOrigin(0, 0);
+        walk.anims.play('walk');
+        if (flip) {
+            walk.setFlip(true, false);
+        }
+        else if (!flip) {
+            walk.resetFlip();
+        }
+        walk.on('animationcomplete', () => {
+            player.alpha = 1;
+            walk.destroy(); 
+        });
+    }
+
     changeDifficulty() {
         this.plat2.body.setVelocityX(this.difficulty);
         this.plat3.body.setVelocityX(this.difficulty);
@@ -266,15 +317,16 @@ class Play extends Phaser.Scene {
         this.bounce1.body.setVelocityX(this.difficulty);
         this.bounce2.body.setVelocityX(this.difficulty);
         this.spike.body.setVelocityX(this.difficulty);
-        this.jumpPiece.body.setVelocityX(this.difficulty);        
+        if (this.jumpPiece.body != undefined)
+            this.jumpPiece.body.setVelocityX(this.difficulty);        
     }
 
     tempJump(player) {
         if (player.body.touching.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
             player.body.setVelocityY(-1000);
+            this.sound.play('JumpSFX');
         }
-        //this.time.delayedCall(5000, () => { this.jump = 0; });
-
+        this.time.delayedCall(15000, () => { this.jump = 0; });
     }
 
     playerDeath() {

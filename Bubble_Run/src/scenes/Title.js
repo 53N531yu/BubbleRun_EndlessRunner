@@ -64,11 +64,12 @@ class Title extends Phaser.Scene {
             // });
             
             // start next scene
+            this.sound.play('StartGameSFX');
             this.scene.start('playScene');
         }
 
         if (Phaser.Input.Keyboard.JustDown(cursors.down)) {
-            console.log(this);
+            this.sound.play('StartGameSFX');
             this.scene.stop('titleScene');
             this.scene.start('creditsScene');
         }

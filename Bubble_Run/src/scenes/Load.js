@@ -29,8 +29,14 @@ class Load extends Phaser.Scene {
         this.load.image('cross', 'img/white_cross.png');
         this.load.image('TitleScreen', 'img/TitleScreen.png');
         this.load.image('Credits', 'img/Credits.png');
+        this.load.spritesheet('walk', 'img/walkAnimation.png', {frameWidth: 64, frameHeight: 64, startFrame: 0, endFrame: 6});
         // load audio assets
         this.load.audio('BackMusic', ['audio/NocturneOP27NO2.wav']);
+        this.load.audio('BounceSFX', ['audio/BounceSFX.wav']);
+        this.load.audio('JumpPieceSFX', ['audio/JumpPieceSFX.wav']);
+        this.load.audio('CoinSFX', ['audio/CoinSFX.wav']);
+        this.load.audio('JumpSFX', ['audio/JumpSFX.wav']);
+        this.load.audio('StartGameSFX', ['audio/StartGameSFX.wav']);
         // this.load.audio('clang', ['audio/clang.mp3']);
         // this.load.audio('death', ['audio/death.mp3']);
         // load font
