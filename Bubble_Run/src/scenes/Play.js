@@ -100,7 +100,6 @@ class Play extends Phaser.Scene {
         this.coinbool = true;
 
         // add tile sprite
-        // this.talltrees = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'talltrees').setOrigin(0);
         this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'Background').setOrigin(0, 0);
 
         this.plat1 = this.physics.add.sprite(256, 448, 'Platform');
@@ -179,14 +178,12 @@ class Play extends Phaser.Scene {
         this.jumpPiece.body.immovable = true;
         this.jumpPiece.body.setAllowGravity(false).setVelocityX(this.difficulty);
 
-        // set up my alien son 👽
+        // set up player
         this.player = this.physics.add.sprite(256, 300, 'Player').setScale(1);
         this.player.setFlip(true, false);
         this.player.destroyed = false;
         this.playerX = this.player.body.x;
         this.playerY = this.player.body.y;
-
-        // this.AddGlow(this.player);
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
@@ -195,9 +192,6 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.plat1);
         this.physics.add.collider(this.player, this.plat2);
         this.physics.add.collider(this.player, this.plat3);
-        // this.physics.add.collider(this.jumpGlow, this.plat1);
-        // this.physics.add.collider(this.jumpGlow, this.plat2);
-        // this.physics.add.collider(this.jumpGlow, this.plat3);
 
         this.anims.create({
             key: 'walk',
@@ -243,18 +237,14 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-        // this.talltrees.tilePositionX += this.SCROLL_SPEED;
-        // this.groundScroll.tilePositionX += this.SCROLL_SPEED;
         this.background.tilePositionX += 0.5;
         if (!this.player.destroyed) {
             if (cursors.left.isDown) {
                 this.player.body.setVelocityX(this.velocity * -1);
-                // this.jumpGlow.body.setVelocityX(this.velocity * -1);
                 this.player.anims.play('walk', true);
                 this.player.resetFlip();
             } else if (cursors.right.isDown) {
                 this.player.body.setVelocityX(this.velocity);
-                // this.jumpGlow.body.setVelocityX(this.velocity);
                 this.player.anims.play('walk', true);
                 this.player.setFlip(true, false);
             } else {
@@ -294,17 +284,8 @@ class Play extends Phaser.Scene {
             }
             if (this.jump >= 3) {
                 this.tempJump(this.player);
-                //this.jumpGlow.alpha = 1;
-            }
-            else if (this.jump < 3) {
-                //this.jumpGlow.alpha = 0;
             }
         }
-        
-        //Phaser.Input.Keyboard.JustDown(cursors.up)
-
-		// check if alien is grounded
-	    //this.player.isGrounded = this.player.body.touching.down;
 
 	    if (this.jumping && Phaser.Input.Keyboard.UpDuration(cursors.up)) {
 	    	this.jumps--;

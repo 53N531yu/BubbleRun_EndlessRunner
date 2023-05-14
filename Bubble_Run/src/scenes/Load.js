@@ -43,9 +43,6 @@ class Load extends Phaser.Scene {
         this.load.audio('CoinSFX', ['audio/CoinSFX.wav']);
         this.load.audio('JumpSFX', ['audio/JumpSFX.wav']);
         this.load.audio('StartGameSFX', ['audio/StartGameSFX.wav']);
-        // this.load.audio('clang', ['audio/clang.mp3']);
-        // this.load.audio('death', ['audio/death.mp3']);
-        // load font
         this.load.bitmapFont('gem', 'font/gem.png', 'font/gem.xml');
     }
 
