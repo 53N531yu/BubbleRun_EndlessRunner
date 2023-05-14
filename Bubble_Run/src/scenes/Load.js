@@ -34,6 +34,7 @@ class Load extends Phaser.Scene {
         this.load.image('TitleScreen', 'img/TitleScreen.png');
         this.load.image('Credits', 'img/Credits.png');
         this.load.image('GameOver', 'img/GameOver.png');
+        this.load.image('Background', 'img/Background.png');
         this.load.spritesheet('walk', 'img/walkAnimation.png', {frameWidth: 64, frameHeight: 64, startFrame: 0, endFrame: 6});
         // load audio assets
         this.load.audio('BackMusic', ['audio/NocturneOP27NO2.wav']);

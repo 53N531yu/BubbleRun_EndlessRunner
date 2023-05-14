@@ -101,6 +101,8 @@ class Play extends Phaser.Scene {
 
         // add tile sprite
         // this.talltrees = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'talltrees').setOrigin(0);
+        this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'Background').setOrigin(0, 0);
+
         this.plat1 = this.physics.add.sprite(256, 448, 'Platform');
         this.plat1.body.immovable = true;
         this.plat1.body.setAllowGravity(false).setVelocityX(this.difficulty);
@@ -243,6 +245,7 @@ class Play extends Phaser.Scene {
     update() {
         // this.talltrees.tilePositionX += this.SCROLL_SPEED;
         // this.groundScroll.tilePositionX += this.SCROLL_SPEED;
+        this.background.tilePositionX += 0.5;
         if (!this.player.destroyed) {
             if (cursors.left.isDown) {
                 this.player.body.setVelocityX(this.velocity * -1);
