@@ -380,7 +380,7 @@ class Play extends Phaser.Scene {
             player.body.setVelocityY(-1000);
             this.sound.play('JumpSFX');
         }
-        this.time.delayedCall(20000, () => { 
+        this.time.delayedCall(25000, () => { 
             this.jump = 0;
             this.scoreRight.text = "Jump Pieces : " + this.jump + " / 3";
          });
