@@ -278,7 +278,7 @@ class Play extends Phaser.Scene {
                 console.log(this.points);
                 if (this.difficulty < (this.velocity * -1))
                 {
-                    this.difficulty -= 10;
+                    this.difficulty -= 20;
                     this.changeDifficulty();
                 }
             }
